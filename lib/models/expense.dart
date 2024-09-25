@@ -1,6 +1,5 @@
+import 'package:expense_tracker/models/category.dart';
 import 'package:uuid/uuid.dart';
-
-enum Category { food, travel, work, leisure }
 
 class Expense {
   final String id;
