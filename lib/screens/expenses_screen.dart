@@ -10,6 +10,10 @@ class ExpensesScreen extends StatefulWidget {
 class _ExpensesScreenState extends State<ExpensesScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return const Scaffold(
+      body: Column(
+        children: [Text("Chart"), Text("Expenses list")],
+      ),
+    );
   }
 }
