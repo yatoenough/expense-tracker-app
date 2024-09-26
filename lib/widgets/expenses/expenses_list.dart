@@ -15,6 +15,8 @@ class ExpensesList extends StatelessWidget {
       itemCount: expenses.length,
       itemBuilder: (context, index) => Dismissible(
         key: ValueKey(expenses[index]),
+        direction: DismissDirection.endToStart,
+        onDismissed: (direction) => onExpenseRemove(expenses[index]),
         background: Container(
           color: Theme.of(context).colorScheme.error,
           child: const Padding(
@@ -34,8 +36,6 @@ class ExpensesList extends StatelessWidget {
             ),
           ),
         ),
-        direction: DismissDirection.endToStart,
-        onDismissed: (direction) => onExpenseRemove(expenses[index]),
         child: ExpenseItem(
           expense: expenses[index],
         ),
