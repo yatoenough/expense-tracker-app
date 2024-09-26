@@ -1,5 +1,6 @@
 import 'package:expense_tracker/screens/expenses_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 var kColorScheme = ColorScheme.fromSeed(
   seedColor: const Color.fromARGB(255, 96, 59, 181),
@@ -16,7 +17,7 @@ class ExpenseTrackerApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Expense Tracker',
-      theme: ThemeData().copyWith(
+      theme: ThemeData(fontFamily: GoogleFonts.lato().fontFamily).copyWith(
         colorScheme: kColorScheme,
         appBarTheme: const AppBarTheme().copyWith(
           backgroundColor: kColorScheme.primaryContainer,
