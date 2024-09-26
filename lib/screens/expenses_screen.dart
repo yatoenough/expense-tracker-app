@@ -88,6 +88,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                 ? ExpensesList(
                     expenses: _expenses,
                     onExpenseRemove: _removeExpense,
+                    onExpenseEdit: (e) => print(e),
                   )
                 : const Center(
                     child: Text("No expenses"),
