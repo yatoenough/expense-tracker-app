@@ -2,7 +2,7 @@ import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/widgets/chart/chart.dart';
 import 'package:expense_tracker/widgets/expenses/expenses_list.dart';
-import 'package:expense_tracker/widgets/expenses/new_expense.dart';
+import 'package:expense_tracker/widgets/expenses/expense_form.dart';
 import 'package:flutter/material.dart';
 
 class ExpensesScreen extends StatefulWidget {
@@ -34,18 +34,25 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
     ),
   ];
 
-  void _showAddExpenseOverlay() {
+  void _showExpenseForm({Expense? expense}) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      builder: (context) => NewExpense(
+      builder: (context) => ExpenseForm(
         onExpenseAdd: _addExpense,
+        onExpenseEdit: _editExpense,
+        expense: expense,
       ),
     );
   }
 
   void _addExpense(Expense expense) {
     setState(() => _expenses.add(expense));
+  }
+
+  void _editExpense(Expense originalExpense, Expense editedExpense) {
+    final index = _expenses.indexOf(originalExpense);
+    setState(() => _expenses[index] = editedExpense);
   }
 
   void _removeExpense(Expense expense) {
@@ -75,7 +82,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
       appBar: AppBar(
         actions: [
           IconButton(
-              onPressed: _showAddExpenseOverlay,
+              onPressed: () => _showExpenseForm(),
               icon: const Icon(Icons.add_rounded))
         ],
         title: const Text("Flutter Expense Tracker"),
@@ -88,6 +95,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                 ? ExpensesList(
                     expenses: _expenses,
                     onExpenseRemove: _removeExpense,
+                    onExpenseEdit: _showExpenseForm,
                   )
                 : const Center(
                     child: Text("No expenses"),
