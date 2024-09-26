@@ -1,3 +1,4 @@
+import 'package:expense_tracker/extensions/capitalize.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:flutter/material.dart';
@@ -139,7 +140,7 @@ class _NewExpenseState extends State<NewExpense> {
                     .map(
                       (category) => DropdownMenuItem(
                         value: category,
-                        child: Text(category.name.toUpperCase()),
+                        child: Text(category.name.capitalize()),
                       ),
                     )
                     .toList(),
