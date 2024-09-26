@@ -4,8 +4,8 @@ import 'package:expense_tracker/models/expense.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class NewExpense extends StatefulWidget {
-  const NewExpense(
+class ExpenseForm extends StatefulWidget {
+  const ExpenseForm(
       {super.key,
       required this.onExpenseAdd,
       required this.onExpenseEdit,
@@ -16,10 +16,10 @@ class NewExpense extends StatefulWidget {
   final Expense? expense;
 
   @override
-  State<NewExpense> createState() => _NewExpenseState();
+  State<ExpenseForm> createState() => _ExpenseFormState();
 }
 
-class _NewExpenseState extends State<NewExpense> {
+class _ExpenseFormState extends State<ExpenseForm> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime? _selectedDate;
