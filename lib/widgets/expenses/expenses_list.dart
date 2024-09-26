@@ -13,7 +13,7 @@ class ExpensesList extends StatefulWidget {
 
   final List<Expense> expenses;
   final void Function(Expense expense) onExpenseRemove;
-  final void Function(Expense expense) onExpenseEdit;
+  final void Function({Expense? expense}) onExpenseEdit;
 
   @override
   State<ExpensesList> createState() => _ExpensesListState();
@@ -41,7 +41,7 @@ class _ExpensesListState extends State<ExpensesList>
                 icon: Icons.edit_rounded,
                 label: "Edit",
                 onPressed: (context) =>
-                    widget.onExpenseEdit(widget.expenses[index]),
+                    widget.onExpenseEdit(expense: widget.expenses[index]),
                 backgroundColor: Colors.orange,
               ),
               SlidableAction(

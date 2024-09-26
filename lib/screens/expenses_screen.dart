@@ -34,18 +34,25 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
     ),
   ];
 
-  void _showAddExpenseOverlay() {
+  void _showExpenseOverlay({Expense? expense}) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (context) => NewExpense(
         onExpenseAdd: _addExpense,
+        onExpenseEdit: _editExpense,
+        expense: expense,
       ),
     );
   }
 
   void _addExpense(Expense expense) {
     setState(() => _expenses.add(expense));
+  }
+
+  void _editExpense(Expense originalExpense, Expense editedExpense) {
+    final index = _expenses.indexOf(originalExpense);
+    setState(() => _expenses[index] = editedExpense);
   }
 
   void _removeExpense(Expense expense) {
@@ -75,7 +82,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
       appBar: AppBar(
         actions: [
           IconButton(
-              onPressed: _showAddExpenseOverlay,
+              onPressed: () => _showExpenseOverlay(),
               icon: const Icon(Icons.add_rounded))
         ],
         title: const Text("Flutter Expense Tracker"),
@@ -88,7 +95,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                 ? ExpensesList(
                     expenses: _expenses,
                     onExpenseRemove: _removeExpense,
-                    onExpenseEdit: (e) => print(e),
+                    onExpenseEdit: _showExpenseOverlay,
                   )
                 : const Center(
                     child: Text("No expenses"),
