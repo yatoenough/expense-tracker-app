@@ -13,26 +13,7 @@ class ExpensesScreen extends StatefulWidget {
 }
 
 class _ExpensesScreenState extends State<ExpensesScreen> {
-  final List<Expense> _expenses = [
-    Expense(
-      title: "Meal",
-      amount: 9.99,
-      date: DateTime.now(),
-      category: Category.food,
-    ),
-    Expense(
-      title: "Cinema",
-      amount: 18.49,
-      date: DateTime.now(),
-      category: Category.leisure,
-    ),
-    Expense(
-      title: "Plane ticket",
-      amount: 129.99,
-      date: DateTime.now(),
-      category: Category.travel,
-    ),
-  ];
+  final List<Expense> _expenses = [];
 
   void _showExpenseForm({Expense? expense}) {
     showModalBottomSheet(
