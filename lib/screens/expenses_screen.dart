@@ -58,6 +58,8 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -67,22 +69,41 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
         ],
         title: const Text("Flutter Expense Tracker"),
       ),
-      body: Column(
-        children: [
-          Chart(expenses: _expenses),
-          Expanded(
-            child: _expenses.isNotEmpty
-                ? ExpensesList(
-                    expenses: _expenses,
-                    onExpenseRemove: _removeExpense,
-                    onExpenseEdit: _showExpenseForm,
-                  )
-                : const Center(
-                    child: Text("No expenses"),
-                  ),
-          ),
-        ],
-      ),
+      body: width <= 600
+          ? Column(
+              children: [
+                Chart(expenses: _expenses),
+                Expanded(
+                  child: _expenses.isNotEmpty
+                      ? ExpensesList(
+                          expenses: _expenses,
+                          onExpenseRemove: _removeExpense,
+                          onExpenseEdit: _showExpenseForm,
+                        )
+                      : const Center(
+                          child: Text("No expenses"),
+                        ),
+                ),
+              ],
+            )
+          : Row(
+              children: [
+                Expanded(
+                  child: _expenses.isNotEmpty
+                      ? ExpensesList(
+                          expenses: _expenses,
+                          onExpenseRemove: _removeExpense,
+                          onExpenseEdit: _showExpenseForm,
+                        )
+                      : const Center(
+                          child: Text("No expenses"),
+                        ),
+                ),
+                Expanded(
+                  child: Chart(expenses: _expenses),
+                ),
+              ],
+            ),
     );
   }
 }
