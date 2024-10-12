@@ -4,20 +4,40 @@ import 'package:expense_tracker/models/expense.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class NewExpense extends StatefulWidget {
-  const NewExpense({super.key, required this.onExpenseAdd});
+class ExpenseForm extends StatefulWidget {
+  const ExpenseForm(
+      {super.key,
+      required this.onExpenseAdd,
+      required this.onExpenseEdit,
+      this.expense});
 
   final void Function(Expense expense) onExpenseAdd;
+  final void Function(Expense original, Expense edited) onExpenseEdit;
+  final Expense? expense;
 
   @override
-  State<NewExpense> createState() => _NewExpenseState();
+  State<ExpenseForm> createState() => _ExpenseFormState();
 }
 
-class _NewExpenseState extends State<NewExpense> {
+class _ExpenseFormState extends State<ExpenseForm> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime? _selectedDate;
   Category _selectedCategory = Category.leisure;
+
+  bool expenseToEditProvided = false;
+
+  @override
+  void initState() {
+    if (widget.expense != null) {
+      expenseToEditProvided = true;
+      _titleController.text = widget.expense!.title;
+      _amountController.text = widget.expense!.amount.toString();
+      _selectedDate = widget.expense!.date;
+      _selectedCategory = widget.expense!.category;
+    }
+    super.initState();
+  }
 
   void _showDatePicker() async {
     final now = DateTime.now();
@@ -62,14 +82,24 @@ class _NewExpenseState extends State<NewExpense> {
       return;
     }
 
-    widget.onExpenseAdd(
-      Expense(
-        title: _titleController.text,
-        amount: enteredAmount,
-        date: _selectedDate!,
-        category: _selectedCategory,
-      ),
-    );
+    expenseToEditProvided
+        ? widget.onExpenseEdit(
+            widget.expense!,
+            Expense(
+              title: _titleController.text,
+              amount: enteredAmount,
+              date: _selectedDate!,
+              category: _selectedCategory,
+            ),
+          )
+        : widget.onExpenseAdd(
+            Expense(
+              title: _titleController.text,
+              amount: enteredAmount,
+              date: _selectedDate!,
+              category: _selectedCategory,
+            ),
+          );
 
     Navigator.pop(context);
   }
@@ -87,9 +117,9 @@ class _NewExpenseState extends State<NewExpense> {
       padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
       child: Column(
         children: [
-          const Text(
-            "Add new expense",
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+          Text(
+            expenseToEditProvided ? "Edit expense" : "Add new expense",
+            style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
           ),
           TextField(
             controller: _titleController,
@@ -155,7 +185,7 @@ class _NewExpenseState extends State<NewExpense> {
               ),
               ElevatedButton(
                 onPressed: _submitExpenseData,
-                child: const Text("Add Expense"),
+                child: Text(expenseToEditProvided ? "Save" : "Add Expense"),
               ),
             ],
           )
